@@ -196,7 +196,17 @@ h6 {
   width: 0;
   height: 0;
 }
+#progress::-moz-range-thumb {
+  width: 0;
+  height: 0;
+  border: none;
+}
 
+#progress::-ms-thumb {
+  width: 0;
+  height: 0;
+  border: none;
+}
 /* Music player box */
 .music-player-box {
   display: flex;
