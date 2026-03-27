@@ -50,30 +50,41 @@
     </div>
 
     <main>
-      <!-- Listen-now section-->
-      <section class="listen-now-section">
-        <h2>Listen Now</h2>
-        <!-- Icons -->
-        <div class="music-icons">
-          <ul>
-            <li>
-              <a href=""><i class="fa-brands fa-spotify"></i></a>
-            </li>
-            <li>
-              <a href=""><i class="fa-brands fa-soundcloud"></i></a>
-            </li>
-            <li>
-              <a href=""><i class="fa-brands fa-itunes-note"></i></a>
-            </li>
-            <li>
-              <a href=""><i class="fa-brands fa-youtube"></i></a>
-            </li>
-            <li>
-              <a href=""><i class="fa-brands fa-bandcamp"></i></a>
-            </li>
-          </ul>
+      <!-- Music player -->
+      <div class="music-player-box">
+        <!-- Progress / Time -->
+        <div class="progress-container">
+          <input type="range" id="progress" value="0" min="0" max="100" />
         </div>
-      </section>
+
+        <!-- Main music bar-->
+        <div class="music-player-bar">
+          <!-- Cover art + Track info-->
+          <div class="track-info-box">
+            <img src="awd" alt="Album cover" class="cover" />
+            <div class="track-info">
+              <div class="title"></div>
+              <div class="artist"></div>
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <div class="controls">
+            <button id="prev"><i class="fa-solid fa-backward-step"></i></button>
+            <button id="play"><i class="fa-solid fa-play"></i></button>
+            <button id="next"><i class="fa-solid fa-forward-step"></i></button>
+          </div>
+
+          <!-- Volume controls -->
+          <div class="volume-controls">
+            <button id="mute"></button>
+            <input type="range" id="volume" min="0" step="0.01" value="1" />
+          </div>
+        </div>
+
+        <!-- Audio -->
+        <audio id="audio"></audio>
+      </div>
     </main>
 
     <footer class="footer">

@@ -1,4 +1,6 @@
-// Hamburger menu
+/* ======================================================
+                     HAMBURGER MENU
+   ====================================================== */
 const hamburger = document.querySelector(".hamburger");
 const menu = document.querySelector(".nav-menu");
 const overlay = document.querySelector(".menu-overlay");
@@ -27,48 +29,130 @@ window.addEventListener("resize", () => {
   }
 });
 
-const video = document.getElementById("video");
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
-const glow = document.querySelector(".video-glow");
+/* ======================================================
+                       MUSIC PLAYER 
+   ====================================================== */
+const audio = document.getElementById("audio");
+const cover = document.querySelector(".cover");
+const title = document.querySelector(".title");
+const artist = document.querySelector(".artist");
+const playBtn = document.getElementById("play");
+const prevBtn = document.getElementById("prev");
+const nextBtn = document.getElementById("next");
+const muteBtn = document.getElementById("mute");
+const volumeSlider = document.getElementById("volume");
+const progress = document.getElementById("progress");
+const currentTime = document.getElementById("current-time");
+const duration = document.getElementById("duration");
 
-function getAverageColor() {
-  const width = (canvas.width = 160); // liten canvas = bättre performance
-  const height = (canvas.height = 90);
+// Playlist
+const playlist = [
+  {
+    title: "Sahara rhytm",
+    artist: "Rickard Engström",
+    cover: "/images/desert.jpg",
+    src: "/music/sahara-rhytm.mp3",
+  },
+  {
+    title: "The Crow is near",
+    artist: "Rickard Engström",
+    cover: "/images/crow.jpg",
+    src: "/music/crow-is-near.mp3",
+  },
+];
 
-  ctx.drawImage(video, 0, 0, width, height);
+let currentIndex = 0;
 
-  const data = ctx.getImageData(0, 0, width, height).data;
+// Load track
+function loadTrack(index) {
+  const track = playlist[index];
+  audio.src = track.src;
+  cover.src = track.cover;
+  title.textContent = track.title;
+  artist.textContent = track.artist;
+  audio.load();
 
-  let r = 0,
-    g = 0,
-    b = 0;
-  let count = 0;
+  // Reset play button to "play" icon
+  playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+  updateVolumeIcon();
+}
 
-  for (let i = 0; i < data.length; i += 4) {
-    r += data[i];
-    g += data[i + 1];
-    b += data[i + 2];
-    count++;
+// Initial track
+loadTrack(currentIndex);
+
+// Play/Pause
+playBtn.addEventListener("click", () => {
+  if (audio.paused) {
+    audio.play();
+    playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+  } else {
+    audio.pause();
+    playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
   }
-
-  r = Math.floor(r / count);
-  g = Math.floor(g / count);
-  b = Math.floor(b / count);
-
-  return `rgb(${r}, ${g}, ${b})`;
-}
-
-function updateGlow() {
-  if (video.paused || video.ended) return;
-
-  const color = getAverageColor();
-
-  glow.style.background = `radial-gradient(circle, ${color} 0%, transparent 70%)`;
-
-  requestAnimationFrame(updateGlow);
-}
-
-video.addEventListener("play", () => {
-  updateGlow();
 });
+
+// Prev/Next
+prevBtn.addEventListener("click", () => {
+  currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+  loadTrack(currentIndex);
+  audio.play();
+  playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+});
+
+nextBtn.addEventListener("click", () => {
+  currentIndex = (currentIndex + 1) % playlist.length;
+  loadTrack(currentIndex);
+  audio.play();
+  playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+});
+
+// Volume / Mute
+function updateVolumeIcon() {
+  if (audio.muted || audio.volume === 0) {
+    muteBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+  } else if (audio.volume < 0.5) {
+    muteBtn.innerHTML = '<i class="fa-solid fa-volume-low"></i>';
+  } else {
+    muteBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+  }
+}
+
+muteBtn.addEventListener("click", () => {
+  audio.muted = !audio.muted;
+  updateVolumeIcon();
+});
+
+volumeSlider.addEventListener("input", () => {
+  audio.volume = volumeSlider.value;
+  audio.muted = audio.volume === 0;
+  updateVolumeIcon();
+});
+
+// Progressbar
+audio.addEventListener("timeupdate", () => {
+  progress.value = (audio.currentTime / audio.duration) * 100 || 0;
+  currentTime.textContent = formatTime(audio.currentTime);
+  duration.textContent = formatTime(audio.duration);
+});
+
+progress.addEventListener("input", () => {
+  audio.currentTime = (progress.value / 100) * audio.duration;
+});
+
+// Uppdatera bar när låten spelas
+audio.addEventListener("timeupdate", () => {
+  const value = (audio.currentTime / audio.duration) * 100;
+  progress.value = value;
+  updateProgressBackground(value);
+});
+
+// Uppdatera när användaren drar
+progress.addEventListener("input", () => {
+  audio.currentTime = (progress.value / 100) * audio.duration;
+  updateProgressBackground(progress.value);
+});
+
+// Funktion för att fylla baren med färg
+function updateProgressBackground(value) {
+  progress.style.background = `linear-gradient(to right, #1db954 0%, #1db954 ${value}%, #444 ${value}%, #444 100%)`;
+}
