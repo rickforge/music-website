@@ -154,5 +154,5 @@ progress.addEventListener("input", () => {
 
 // Funktion för att fylla baren med färg
 function updateProgressBackground(value) {
-  progress.style.background = `linear-gradient(to right, #1db954 0%, #1db954 ${value}%, #444 ${value}%, #444 100%)`;
+  progress.style.background = `linear-gradient(to right, #fffb01 0%, #d1e70c ${value}%, #444 ${value}%, #444 100%)`;
 }
