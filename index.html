@@ -41,12 +41,9 @@
     <!-- Hero section -->
     <div class="hero">
       <div class="hero-gradient-overlay"></div>
-
-      <!-- Video box -->
-      <div class="hero-video-box">
-        <h1 class="hero-title">Super Epic Nordic Ambience</h1>
-        <video id="video" src="videos/test.mp4" controls></video>
-      </div>
+      <video autoplay muted loop playsinline preload="metadata">
+        <source src="/videos/knight.webm" type="video/mp4" />
+      </video>
     </div>
 
     <main>
@@ -54,6 +51,7 @@
       <div class="music-player-box">
         <!-- Progress / Time -->
         <div class="progress-container">
+          <div id="progress-fill"></div>
           <input type="range" id="progress" value="0" min="0" max="100" />
         </div>
 
@@ -78,7 +76,17 @@
           <!-- Volume controls -->
           <div class="volume-controls">
             <button id="mute"></button>
-            <input type="range" id="volume" min="0" step="0.01" value="1" />
+            <div class="volume-wrapper">
+              <input
+                type="range"
+                id="volume"
+                min="0"
+                max="1"
+                step="0.01"
+                value="1"
+              />
+              <div id="volume-fill"></div>
+            </div>
           </div>
         </div>
 
