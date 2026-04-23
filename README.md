@@ -17,11 +17,11 @@ A music-focused website currently under development.
 - Media and visual content integration
 - Custom UI design inspired by music platforms
 
-  ## Tech
-  - HTML
-  - CSS
-  - JavaScript
-  - React (not yet)
+## Tech
+- HTML
+- CSS
+- JavaScript
+- React (not yet)
 
 ## Live Demo
 
