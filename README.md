@@ -23,6 +23,10 @@ A music-focused website currently under development.
   - JavaScript
   - React (not yet)
 
+## Live Demo
+
+https://rickardengstrom.com/
+
 ## About the project
 
 This project is an ongoing exploration of building a music website.
